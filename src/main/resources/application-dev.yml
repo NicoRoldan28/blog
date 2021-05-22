@@ -5,7 +5,7 @@ Spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       dialect: org.hibernate.dialect.MySQL8Dialect
       driverClassName: com.mysql.cj.jdbc.Drive
     database: mysql

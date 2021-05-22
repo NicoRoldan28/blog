@@ -19,14 +19,14 @@ public class BlogApplication {
 
 	@EnableWebSecurity
 	@Configuration
-	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+					.antMatchers(HttpMethod.POST, " /auth/login").permitAll()
 					.anyRequest().authenticated();
 		}
 	}

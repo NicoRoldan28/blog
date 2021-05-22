@@ -1,6 +1,7 @@
 package com.API.blog.controller;
 
 import com.API.blog.domain.Post;
+import com.API.blog.domain.PostResponse;
 import com.API.blog.exceptions.PostExistsException;
 import com.API.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping(value = "/post")
 public class PostController {
     public final PostService postService;
 
@@ -24,7 +25,7 @@ public class PostController {
         this.postService=postService;
     }
 
-    @PostMapping(consumes = "application/json")
+    /*@PostMapping(consumes = "application/json")
     public ResponseEntity newPost(@RequestBody Post post) throws PostExistsException {
         Post newPost = postService.newPost(post);
         URI location = ServletUriComponentsBuilder
@@ -33,9 +34,15 @@ public class PostController {
                 .buildAndExpand(newPost.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }*/
+
+    @PostMapping
+    public PostResponse addPersona(@RequestBody Post post) throws PostExistsException {
+
+        return postService.newPost(post);
     }
 
-    @GetMapping(value = "posts")
+    @GetMapping
     public ResponseEntity<List<Post>> allPost(Pageable pageable){
         Page p= postService.allPost(pageable);
         return ResponseEntity.
@@ -62,7 +69,7 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
-    @PatchMapping("/{id}/jugador/{idJugador}")
+    @PatchMapping("/{id}/post/{post}")
     public ResponseEntity<Post> updatePost(@RequestParam("id")Integer id, @RequestBody Post postDetails){
         postService.updatePost(id,postDetails);
         return ResponseEntity.ok(postDetails);

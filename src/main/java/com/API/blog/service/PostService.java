@@ -1,8 +1,10 @@
 package com.API.blog.service;
 
 import com.API.blog.domain.Post;
+import com.API.blog.domain.PostResponse;
 import com.API.blog.exceptions.PostExistsException;
 import com.API.blog.repository.PostRepository;
+import com.API.blog.util.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +17,27 @@ import java.util.List;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private static final String POST_PATH = "post";
 
     @Autowired
     public PostService(PostRepository postRepository){
         this.postRepository=postRepository;
     }
 
-    public Post newPost(Post post)throws PostExistsException {
+    /*public Post newPost(Post post)throws PostExistsException {
         if ((!postRepository.existsById(post.getId()))){
             return postRepository.save(post);
         } else {
         throw new PostExistsException();
     }
+    }*/
+    public PostResponse newPost(Post post) {
+        Post p = postRepository.save(post);
+        return PostResponse
+                .builder()
+                .status(HttpStatus.CREATED)
+                .url(EntityURLBuilder.buildURL(POST_PATH, p.getId()))
+                .build();
     }
 
     public void deletePost(Integer id){

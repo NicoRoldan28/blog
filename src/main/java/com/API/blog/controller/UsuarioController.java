@@ -44,7 +44,7 @@ public class UsuarioController {
         this.modelMapper=modelMapper;
     }
 
-    @PostMapping(value = "auth/login")
+    @PostMapping(value = " auth/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         log.info(loginRequestDto.toString());
         Usuario user = usuarioService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
@@ -56,7 +56,7 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(value = "/add",consumes = "application/json")
     public ResponseEntity newClient(@RequestBody Usuario user){
         Usuario newUser = usuarioService.newUsuario(user);
         URI location = ServletUriComponentsBuilder
@@ -98,7 +98,7 @@ public class UsuarioController {
                     .claim("user", objectMapper.writeValueAsString(userDto))
                     .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 180000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 1800000))
                     .signWith(SignatureAlgorithm.HS512, JWT_SECRET.getBytes()).compact();
             return  token;
         } catch(Exception e) {
