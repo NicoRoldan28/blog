@@ -25,6 +25,11 @@ public class UsuarioService {
             return null;
         }
     }
+
+    public Usuario login(String email, String password) {
+        return usuarioRepository.findByEmailAndPassword(email, password);
+    }
+
     public Usuario getUsuarioById(Integer id){
         return usuarioRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
